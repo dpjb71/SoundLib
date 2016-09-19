@@ -18,8 +18,9 @@ class Playlist extends \SoundLib\Lib\RestController
     //put your code here
     public function userFavorites($userId)
     {
-        $data = \SoundLib\Models\Playlist::getUserFavorites($userId);
-        $this->response->sendJsonData($data);
+        $favorites = \SoundLib\Models\Playlist::getUserFavorites($userId);
+        
+        $this->response->setData($favorites);
     }
         
 }

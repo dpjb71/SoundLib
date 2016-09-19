@@ -78,7 +78,7 @@ abstract class RestController
             $this->delete();
         }
         
-        $this->response->sendJsonData($this->data);
+        $this->response->sendJsonData();
     }
 
 

@@ -5,25 +5,32 @@
  */
 
 
-var SoundLib = function () {}
+var SoundLib = function() {
+    
+}
 
-SoundLib.get = function(url, callback) {
+SoundLib.Rest = function() {
+    
+}
+
+SoundLib.Rest.prototype.get = function(url, callback) {
     var xhr = new XMLHttpRequest()
     xhr.open('GET', url)
     xhr.onload = function() {
         if(typeof callback === 'function') {
             if (xhr.status === 200) {
-                callback.call(xhr.responseText)
+                var data = JSON.parse(xhr.responseText)
+                callback.call(this, data)
             }
             else {
-                callback.call(xhr.status)
+                callback.call(this, xhr.status)
             }
         }
     }
     xhr.send()
 }
 
-SoundLib.post = function(url, data, callback) {
+SoundLib.Rest.prototype.post = function(url, data, callback) {
     
     var xhr = new XMLHttpRequest()
 
@@ -40,17 +47,17 @@ SoundLib.post = function(url, data, callback) {
     xhr.onload = function() {
         if(typeof callback === 'function') {
             if (xhr.status === 200) {
-                callback.call(xhr.responseText)
+                callback.call(this, xhr.responseText)
             }
             else if (xhr.status !== 200) {
-                callback.call(xhr.status)
+                callback.call(this, xhr.status)
             }
         }
     }
     xhr.send(params);
 }
 
-SoundLib.patch = function(url, data, callback) {
+SoundLib.Rest.prototype.patch = function(url, data, callback) {
     
     var xhr = new XMLHttpRequest()
 
@@ -67,45 +74,47 @@ SoundLib.patch = function(url, data, callback) {
     xhr.onload = function() {
         if(typeof callback === 'function') {
             if (xhr.status === 200) {
-                callback.call(xhr.responseText)
+                callback.call(this, xhr.responseText)
             }
             else if (xhr.status !== 200) {
-                callback.call(xhr.status)
+                callback.call(this, xhr.status)
             }
         }
     }
     xhr.send(params);
 }
 
-SoundLib.put = function(url, data, callback) {
+SoundLib.Rest.prototype.put = function(url, data, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('PUT', url);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if(typeof callback === 'function') {
             if (xhr.status === 200) {
-                callback.call(JSON.parse(xhr.responseText))
+                callback.call(this, JSON.parse(xhr.responseText))
             }
             else if (xhr.status !== 200) {
-                callback.call(xhr.status)
+                callback.call(this, xhr.status)
             }
         }
     };
     xhr.send(JSON.stringify(data));    
 }
 
-SoundLib.delete = function(url, callback) {
+SoundLib.Rest.prototype.delete = function(url, callback) {
     var xhr = new XMLHttpRequest()
     xhr.open('DELETE', url)
     xhr.onload = function() {
         if(typeof callback === 'function') {
             if (xhr.status === 204) {
-                callback.call(0)
+                callback.call(this, 0)
             }
             else {
-                callback.call(xhr.status)
+                callback.call(this, xhr.status)
             }
         }
     }
     xhr.send()
 }
+
+var Sl = new SoundLib()

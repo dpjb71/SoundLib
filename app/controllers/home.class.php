@@ -20,9 +20,6 @@ class Home extends \SoundLib\Lib\Controller
     
     public function load()
     {
-        $userlist = \SoundLib\Models\Playlist::getUserFavorites($userId);
-
-        $this->playlist = print_r($userlist, true);
         
     }
 }
