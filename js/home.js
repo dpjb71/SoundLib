@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 var rest = new SoundLib.Rest()
+var ui = new SoundLib.UI()
 
 var Home = function() {}
 
 Home.getUserFavorites = function(userId) {
     rest.get('/api/playlist/userFavorites/' + userId, function(data) {
-        alert(JSON.stringify(data.playlist))
+        ui.olList('playlist', data.playlist)
     })
     
 }

@@ -18,6 +18,6 @@ class Playlist
     //put your code here
     public static function getUserFavorites($userId)
     {
-        return ['playlist' => ['artist' => 'Iron Maiden', 'title' => 'The Book of Souls']];
+        return ['playlist' => [['artist' => 'Iron Maiden', 'title' => 'The Book of Souls']]];
     }
 }

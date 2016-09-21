@@ -11,7 +11,6 @@ namespace SoundLib\Lib;
  *
  * @author David
  */
-
 include_once 'constants.php';
 //include 'request.php';
 //include 'response.php';
@@ -25,3 +24,5 @@ include_once 'constants.php';
 include_once 'autoloader.php';
 
 Autoloader::register();
+
+include_once 'js_assembler.php';
