@@ -9,20 +9,28 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link   rel="stylesheet" href="/css/home.css" type="text/css" />
         <script src="/js/soundlib.js"></script>
         <script src="/js/home.js"></script>
     </head>
     <body>
         <div>TODO write content</div>
         <p><% text %></p>
-        
-        <span>My favorites playlist contains : </span>
-        
-        <div id="playlist" >
-            
+         
+        <div class="collection">
+            <span>My collection contains : </span>
+            <div id="collection" >
+                <% collection %>
+            </div>
         </div>
-        
-        <button id="favorites" value="Favorites" onclick="Home.getUserFavorites(1513)" >Favorites</button>
-        
+        <div class="playlist">
+            <span>My favorites playlist contains : </span>
+            <div id="playlist" >
+
+            </div>
+            <p>
+                <button id="favorites" value="Favorites" onclick="Home.getUserFavorites(1)" >Favorites</button>
+            </p>
+        </div>
     </body>
 </html>

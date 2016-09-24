@@ -7,4 +7,26 @@ and open the template in the editor.
     Created on : 10 sept. 2016, 18:43:35
     Author     : David
 */
+.collection {
+    float: left;
+    position: relative;
+    width: 350px;
+    height: 600px;
+    border-style: solid;
+    border-radius: 12px;
+    border-color: blueviolet;
+    padding-left: 30px;
+    margin-left: 30px;
+}
 
+.playlist {
+    float: left;
+    position: relative;
+    width: 350px;
+    height: 600px;
+    border-style: solid;
+    border-radius: 12px;
+    border-color: blueviolet;
+    padding-left: 30px;
+    margin-left: 30px;
+}

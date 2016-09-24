@@ -8,6 +8,13 @@ var ui = new SoundLib.UI()
 
 var Home = function() {}
 
+Home.getCollection = function() {
+    rest.get('/api/collection/allTracks/', function(data) {
+        ui.olList('collection', data.collection)
+    })
+    
+}
+
 Home.getUserFavorites = function(userId) {
     rest.get('/api/playlist/userFavorites/' + userId, function(data) {
         ui.olList('playlist', data.playlist)

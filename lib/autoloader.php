@@ -28,7 +28,7 @@ class Autoloader
         $className = ltrim($fqClassName, '\\');
         $fileName  = '';
 
-        self::debug(__METHOD__ . '::' . $fqClassName);
+//        self::debug(__METHOD__ . '::' . $fqClassName);
         
         $nsParts = explode('\\', $className);
         $baseNamespace = array_shift($nsParts);
@@ -41,7 +41,7 @@ class Autoloader
         } else {
             $fileName = DOCUMENT_ROOT . 'app' . DIRECTORY_SEPARATOR . $filepath . DIRECTORY_SEPARATOR . $className . '.class.php';
         }
-        self::debug(__METHOD__ . '::' . $fileName);
+//        self::debug(__METHOD__ . '::' . $fileName);
 
         include_once $fileName;
     }

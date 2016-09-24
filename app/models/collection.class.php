@@ -14,31 +14,27 @@ use SoundLib\Data\Connection;
  *
  * @author David
  */
-class Playlist
+class Collection
 {
     //put your code here
-    public static function getUserFavorites($userId)
+    public static function getAllTracks()
     {
         $result = [];
-        $result['playlist'] = [];
-
+        $result['collection'] = [];
+        
         $cnn = new Connection();
         $stmt = $cnn->open();
         
         $sql = <<<SELECT
 select art_name as artist, trk_title as title
-from user u
-inner join playlist p on p.usr_id = u.usr_id
-inner join playlist_content c on c.pls_id = p.pls_id
-inner join track t on c.trk_id = t.trk_id
-inner join artist a on t.art_id = a.art_id
-where u.usr_id = $userId
+from artist a
+inner join track t on a.art_id = t.art_id
 SELECT;
-         
+        
         $res = $stmt->query($sql);
         
         while ($row = $res->fetch(\PDO::FETCH_OBJ)) {
-            array_push($result['playlist'], $row);
+            array_push($result['collection'], $row);
         }
         
         return $result;

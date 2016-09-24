@@ -15,11 +15,22 @@ class Home extends \SoundLib\Lib\Controller
 {
     //put your code here
 
-    protected $text = "Hello World!";
-    protected $playlist = "";
+    protected $text = "SoundLib in action!";
+    protected $collection = "";
     
     public function load()
     {
+        $collection = \SoundLib\Models\Collection::getAllTracks();
+        $result = '<ol>';
+        $data = $collection['collection'];
+        $c = count($data);
+        for($li = 0; $li < $c; $li++) {
+            $result .= '<li>' . $data[$li]->artist . ' - ' . $data[$li]->title . '</li>';
+        }
+        $result .= '</ol>';
+        
+        $this->collection = $result;
+            
         
     }
 }
