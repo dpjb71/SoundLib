@@ -59,7 +59,7 @@ SELECT;
         $res->execute([':trackId' => $trackId]);
         
         while ($row = $res->fetch(\PDO::FETCH_OBJ)) {
-            array_push($result['track'], ['id' => $row->id,'artist' => $row->artist, 'title' => $row->title, 'duration' => $row->duration]);
+            array_push($result['track'], $row);
         }
         
         return $result;
