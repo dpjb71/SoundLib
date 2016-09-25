@@ -9,6 +9,8 @@ var SoundLib = function() {
     
 }
 
+SoundLib.ready = function(f){/in/.test(document.readyState)?setTimeout('SoundLib.ready('+f+')',9):f()}
+
 SoundLib.Rest = function() {
     
 }
@@ -84,8 +86,7 @@ SoundLib.Rest.prototype.patch = function(url, data, callback) {
         if(typeof callback === 'function') {
             if (xhr.status === 200) {
                 callback.call(this, xhr.responseText)
-            }
-            else if (xhr.status !== 200) {
+            } else if (xhr.status !== 200) {
                 callback.call(this, xhr.status)
             }
         }
@@ -101,8 +102,7 @@ SoundLib.Rest.prototype.put = function(url, data, callback) {
         if(typeof callback === 'function') {
             if (xhr.status === 200) {
                 callback.call(this, JSON.parse(xhr.responseText))
-            }
-            else if (xhr.status !== 200) {
+            } else if (xhr.status !== 200) {
                 callback.call(this, xhr.status)
             }
         }
@@ -115,18 +115,16 @@ SoundLib.Rest.prototype.delete = function(url, callback) {
     xhr.open('DELETE', url)
     xhr.onload = function() {
         if(typeof callback === 'function') {
-            if (xhr.status === 204) {
-                callback.call(this, 0)
-            }
-            else {
+            if (xhr.status === 200) {
+                callback.call(this, JSON.parse(xhr.responseText))
+            } else {
                 callback.call(this, xhr.status)
             }
         }
     }
     xhr.send()
 }
-
-var Sl = new SoundLib()/* 
+/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -141,13 +139,14 @@ var Sl = new SoundLib()/*
 SoundLib.UI.prototype.olList = function(target, data) {
     result = '<ol>'
     for(var li = 0; li < data.length; li++) {
-        result += '<li>' + data[li].artist + ' - ' + data[li].title + '</li>'
+        result += '<li><img src"/css/images/add.png" />' + data[li].artist + ' - ' + data[li].title + '</li>'
     }
     result += '</ol>'
     
-//    alert(result)
+
     var div = document.getElementById(target)
     if(div !== undefined) {
         div.innerHTML = result;
     }
+    
 }

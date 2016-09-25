@@ -21,10 +21,12 @@ class Response implements \JsonSerializable
     public function setData($key, $value = '')
     {
         if(is_array($key)) {
-            list($key, $value) = each($key);
+            foreach ($key as $left => $right) {
+                $this->data[$left] = $right;
+            }
+        } else {
+            $this->data[$key] = $value;
         }
-        $this->data[$key] = $value;
-
     }
 
     public function returnCode($httpCode)

@@ -18,9 +18,12 @@ class Collection extends \SoundLib\Lib\RestController
     //put your code here
     public function allTracks()
     {
-        $collection = \SoundLib\Models\Collection::getAllTracks();
-        
-        $this->response->setData($collection);
+        if($this->request->getMethod() == 'GET') {
+            $collection = \SoundLib\Models\Collection::getAllTracks();
+            $this->response->setData($collection);
+        } else {
+            $this->response->returnCode(405);
+        }            
     }
         
 }

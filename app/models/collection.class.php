@@ -26,7 +26,7 @@ class Collection
         $stmt = $cnn->open();
         
         $sql = <<<SELECT
-select art_name as artist, trk_title as title
+select trk_id as id, art_name as artist, trk_title as title
 from artist a
 inner join track t on a.art_id = t.art_id
 SELECT;
@@ -37,6 +37,6 @@ SELECT;
             array_push($result['collection'], $row);
         }
         
-        return $result;
+        return (object) $result;
     }
 }

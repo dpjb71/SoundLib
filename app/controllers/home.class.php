@@ -15,22 +15,24 @@ class Home extends \SoundLib\Lib\Controller
 {
     //put your code here
 
-    protected $text = "SoundLib in action!";
+    protected $banner = "SoundLib";
     protected $collection = "";
+    protected $userid = 0;
     
     public function load()
     {
-        $collection = \SoundLib\Models\Collection::getAllTracks();
+        
+        $allTracks = \SoundLib\Models\Collection::getAllTracks();
         $result = '<ol>';
-        $data = $collection['collection'];
+        $data = $allTracks->collection;
         $c = count($data);
-        for($li = 0; $li < $c; $li++) {
-            $result .= '<li>' . $data[$li]->artist . ' - ' . $data[$li]->title . '</li>';
+        for($i = 0; $i < $c; $i++) {
+            $result .= '<li><a href="javascript:Home.addTrackToPlaylist(' . $data[$i]->id . ')" ><img src="/css/images/add.png" /></a>&nbsp;' . $data[$i]->artist . ' - ' . $data[$i]->title . '</li>';
         }
         $result .= '</ol>';
         
         $this->collection = $result;
             
-        
+        $this->userid = 1;
     }
 }

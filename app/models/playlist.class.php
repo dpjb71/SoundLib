@@ -21,26 +21,65 @@ class Playlist
     {
         $result = [];
         $result['playlist'] = [];
-
+        $result['pid'] = 0;
+        
         $cnn = new Connection();
         $stmt = $cnn->open();
         
         $sql = <<<SELECT
-select art_name as artist, trk_title as title
+select p.pls_id as pid, plc_id as id, art_name as artist, trk_title as title
 from user u
-inner join playlist p on p.usr_id = u.usr_id
-inner join playlist_content c on c.pls_id = p.pls_id
-inner join track t on c.trk_id = t.trk_id
-inner join artist a on t.art_id = a.art_id
-where u.usr_id = $userId
+left join playlist p on p.usr_id = u.usr_id
+left join playlist_content c on c.pls_id = p.pls_id
+left join track t on c.trk_id = t.trk_id
+left join artist a on t.art_id = a.art_id
+where u.usr_id = :userId
 SELECT;
          
-        $res = $stmt->query($sql);
-        
+        $res = $stmt->prepare($sql);
+        $res->execute([':userId' => $userId]);
+
         while ($row = $res->fetch(\PDO::FETCH_OBJ)) {
-            array_push($result['playlist'], $row);
+            $result['pid'] = $row->pid;
+            array_push($result['playlist'], ['id' => $row->id,'artist' => $row->artist, 'title' => $row->title]);
         }
         
         return $result;
+    }
+    
+    public static function addTrack($playlist, $trackId)
+    {
+        //\SoundLib\Lib\Log::debug('GOING TO ADD : ' . print_r(['playlist' => $playlist, 'trackId' => $trackId], true));
+
+        $cnn = new Connection();
+        $stmt = $cnn->open();
+        
+        $sql = <<<INSERT
+insert into playlist_content (`pls_id`, `trk_id`) values(:playlist, :trackId)
+INSERT;
+        
+        $res = $stmt->prepare($sql);
+        $res->execute([':playlist' => $playlist, ':trackId' => $trackId]);
+        
+        $affectedRows = $res->rowCount();
+        
+        return ['inserted' => $affectedRows, 'playlist' => $playlist, 'trackId' => $trackId];
+    }
+    
+    public static function removeTrack($trackId)
+    {
+        $cnn = new Connection();
+        $stmt = $cnn->open();
+        
+        $sql = <<<DELETE
+delete from playlist_content where plc_id = :trackId
+DELETE;
+        
+        $res = $stmt->prepare($sql);
+        $res->execute([':trackId' => $trackId]);
+        
+        $affectedRows = $res->rowCount();
+        
+        return ['deleted' => $affectedRows, 'trackId' => $trackId];
     }
 }

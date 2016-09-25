@@ -36,11 +36,6 @@ abstract class RestController
     }
 
     public function load() {}
-    
-    public function get() {}
-    public function put() {}
-    public function post() {}
-    public function delete() {}
 
     public function render()
     {
@@ -53,30 +48,41 @@ abstract class RestController
         $this->className = ucfirst($this->apiName);
         $action = isset($qParts[1]) ? $qParts[1] : '';
         $parameter = isset($qParts[2]) ? $qParts[2] : null;
-
-        if(method_exists($this, $action)) {
-            if(isset($parameter)) {
-                $this->$action($parameter);
-            } else {
-                $this->$action();
+        $data = [];
+        
+        $request_body = file_get_contents('php://input');
+        if(!empty($request_body)) {
+            $data = json_decode($request_body, true);
+        }
+        
+        $params = [];
+        if(count($data) > 0) {
+            $params = array_values($data);
+            if($parameter !== null) {
+                array_unshift($params, $parameter);
+            }
+        } else {
+            if($parameter !== null) {
+                $params = [$parameter];
             }
         }
         
-        if($this->request->getMethod() === 'GET') {
-            $this->get();
+        if(method_exists($this, $action)) {
+            
+            $ref = new \ReflectionMethod($this, $action);
+            if(count($params) > 0) {
+                $ref->invokeArgs($this, $params);
+            } else {
+                $ref->invoke($this);
+            }
+            
+//            if(isset($parameter)) {
+//                $this->$action($parameter);
+//            } else {
+//                $this->$action();
+//            }
         }
         
-        if($this->request->getMethod() === 'PUT') {
-            $this->put();
-        }
-        
-        if($this->request->getMethod() === 'POST') {
-            $this->post();
-        }
-        
-        if($this->request->getMethod() === 'DELETE') {
-            $this->delete();
-        }
         
         $this->response->sendJsonData();
     }

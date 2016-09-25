@@ -8,6 +8,7 @@
 
 namespace SoundLib\Models;
 
+use SoundLib\Data\Connection;
 /**
  * Description of user
  *
@@ -16,4 +17,28 @@ namespace SoundLib\Models;
 class User
 {
     //put your code here
+    public static function getInfo($userId)
+    {
+        $result = [];
+        $result['info'] = [];
+        
+        $cnn = new Connection();
+        $stmt = $cnn->open();
+        
+        $sql = <<<SELECT
+select usr_id as id, usr_name as name, usr_email as email
+from user 
+where usr_id = :userId
+SELECT;
+        
+        $res = $stmt->prepare($sql);
+        $res->execute([':userId' => $userId]);
+        
+        while ($row = $res->fetch(\PDO::FETCH_OBJ)) {
+            array_push($result['info'], $row);
+        }
+        
+        return $result;
+    }
+
 }
