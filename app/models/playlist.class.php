@@ -27,7 +27,7 @@ class Playlist
         $stmt = $cnn->open();
         
         $sql = <<<SELECT
-select p.pls_id as pid, plc_id as id, art_name as artist, trk_title as title
+select p.pls_id as pid, plc_id as id, art_name as artist, trk_title as title, trk_duration as duration
 from user u
 left join playlist p on p.usr_id = u.usr_id
 left join playlist_content c on c.pls_id = p.pls_id
@@ -41,7 +41,7 @@ SELECT;
 
         while ($row = $res->fetch(\PDO::FETCH_OBJ)) {
             $result['pid'] = $row->pid;
-            array_push($result['playlist'], ['id' => $row->id,'artist' => $row->artist, 'title' => $row->title]);
+            array_push($result['playlist'], ['id' => $row->id,'artist' => $row->artist, 'title' => $row->title, 'duration' => $row->duration]);
         }
         
         return $result;

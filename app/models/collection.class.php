@@ -26,7 +26,7 @@ class Collection
         $stmt = $cnn->open();
         
         $sql = <<<SELECT
-select trk_id as id, art_name as artist, trk_title as title
+select trk_id as id, art_name as artist, trk_title as title, trk_duration as duration
 from artist a
 inner join track t on a.art_id = t.art_id
 SELECT;

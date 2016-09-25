@@ -30,7 +30,14 @@ Home.getUserFavorites = function() {
             result = 'La playlist est vide';
         } else {
             for(var i = 0; i < data.length; i++) {
-                result += '<li><a href="javascript:Home.removeTrackFromPlaylist(' + data[i].id + ')" ><img src="/css/images/delete.png" /></a>&nbsp;' + data[i].artist + ' - ' + data[i].title + '</li>'
+                var duration = data[i].duration;
+                
+                
+                var minutes = Math.floor(duration / 60);
+                var seconds = duration - (minutes * 60);
+                duration = minutes + ':' + ('00' + seconds).toString().slice(-2);
+            
+                result += '<li><a href="javascript:Home.removeTrackFromPlaylist(' + data[i].id + ')" ><img src="/css/images/delete.png" /></a>&nbsp;' + data[i].artist + ' - ' + data[i].title + ' (' + duration + ')'  + '</li>'
             }
             result += '</ol>'
         }

@@ -27,7 +27,12 @@ class Home extends \SoundLib\Lib\Controller
         $data = $allTracks->collection;
         $c = count($data);
         for($i = 0; $i < $c; $i++) {
-            $result .= '<li><a href="javascript:Home.addTrackToPlaylist(' . $data[$i]->id . ')" ><img src="/css/images/add.png" /></a>&nbsp;' . $data[$i]->artist . ' - ' . $data[$i]->title . '</li>';
+            $duration = $data[$i]->duration;
+            $minutes = floor($duration / 60);
+            $seconds = $duration - ($minutes * 60);
+            $duration = $minutes . ':' . substr('00' . $seconds, -2);
+            
+            $result .= '<li><a href="javascript:Home.addTrackToPlaylist(' . $data[$i]->id . ')" ><img src="/css/images/add.png" /></a>&nbsp;' . $data[$i]->artist . ' - ' . $data[$i]->title . ' (' . $duration . ')</li>';
         }
         $result .= '</ol>';
         
