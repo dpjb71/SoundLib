@@ -26,4 +26,13 @@ class Collection extends \SoundLib\Lib\RestController
         }            
     }
         
+    public function track($trackId)
+    {
+        if($this->request->getMethod() == 'GET') {
+            $collection = \SoundLib\Models\Collection::getTrackById($trackId);
+            $this->response->setData($collection);
+        } else {
+            $this->response->returnCode(405);
+        }            
+    }
 }

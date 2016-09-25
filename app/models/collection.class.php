@@ -39,4 +39,32 @@ SELECT;
         
         return (object) $result;
     }
+
+    public static function getTrackById($trackId)
+    {
+        $result = [];
+        $result['track'] = [];
+        
+        $cnn = new Connection();
+        $stmt = $cnn->open();
+        
+        $sql = <<<SELECT
+select trk_id as id, art_name as artist, trk_title as title, trk_duration as duration
+from artist a
+inner join track t on a.art_id = t.art_id
+where trk_id = :trackId
+SELECT;
+        
+        $res = $stmt->prepare($sql);
+        $res->execute([':trackId' => $trackId]);
+        
+        while ($row = $res->fetch(\PDO::FETCH_OBJ)) {
+            array_push($result['track'], ['id' => $row->id,'artist' => $row->artist, 'title' => $row->title, 'duration' => $row->duration]);
+        }
+        
+        return $result;
+
+    }
+    
+            
 }
