@@ -29,6 +29,7 @@ class Collection
 select trk_id as id, art_name as artist, trk_title as title, trk_duration as duration
 from artist a
 inner join track t on a.art_id = t.art_id
+order by art_name, trk_title
 SELECT;
         
         $res = $stmt->query($sql);
