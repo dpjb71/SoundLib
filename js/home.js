@@ -11,7 +11,7 @@ var currentPlaylist = 0
 var Home = function() {}
 
 Home.getUserInfo = function() {
-    rest.get('/api/user/info/' + currentUser, function(data) {
+    rest.get('/api/user/' + currentUser, function(data) {
         
         var user = data.info[0]
         document.getElementById('name').innerHTML = user.name
@@ -22,7 +22,7 @@ Home.getUserInfo = function() {
 }
 
 Home.getUserFavorites = function() {
-    rest.get('/api/playlist/userFavorites/' + currentUser, function(data) {
+    rest.get('/api/playlist/' + currentUser, function(data) {
         var result = '<ol>'
         currentPlaylist = data.pid
         data = data.playlist
@@ -51,7 +51,7 @@ Home.getUserFavorites = function() {
 }
 
 Home.addTrackToPlaylist = function(trackId) {
-    rest.put('/api/playlist/addTrack/' + currentPlaylist, {'track' : trackId}, function(data) {
+    rest.put('/api/playlist/' + currentPlaylist, {'track' : trackId}, function(data) {
         if(data.inserted == 1) {
             Home.getUserFavorites()
         }
@@ -59,7 +59,7 @@ Home.addTrackToPlaylist = function(trackId) {
 }
 
 Home.removeTrackFromPlaylist = function(trackId) {
-    rest.delete('/api/playlist/removeTrack/' + trackId, function(data) {
+    rest.delete('/api/playlist/' + trackId, function(data) {
         if(data.deleted == 1) {
             Home.getUserFavorites()
         }

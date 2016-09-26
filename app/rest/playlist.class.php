@@ -16,33 +16,21 @@ namespace SoundLib\Rest;
 class Playlist extends \SoundLib\Lib\RestController
 {
     //put your code here
-    public function userFavorites($userId)
+    public function get($userId)
     {
-        if($this->request->getMethod() == 'GET') {
-            $favorites = \SoundLib\Models\Playlist::getUserFavorites($userId);
-            $this->response->setData($favorites);
-        } else {
-            $this->response->returnCode(405);
-        }
+        $favorites = \SoundLib\Models\Playlist::getUserFavorites($userId);
+        $this->response->setData($favorites);
     }
  
-    public function addTrack($playlist, $trackId)
+    public function put($playlist, $trackId)
     {
-        if($this->request->getMethod() == 'PUT') {
-            $return = \SoundLib\Models\Playlist::addTrack($playlist, $trackId);
-            $this->response->setData($return);
-        } else {
-            $this->response->returnCode(405);
-        }
+        $return = \SoundLib\Models\Playlist::addTrack($playlist, $trackId);
+        $this->response->setData($return);
     }
     
-    public function removeTrack($trackId)
+    public function delete($trackId)
     {
-        if($this->request->getMethod() == 'DELETE') {
-            $return = \SoundLib\Models\Playlist::removeTrack($trackId);
-            $this->response->setData($return);
-        } else {
-            $this->response->returnCode(405);
-        }
+        $return = \SoundLib\Models\Playlist::removeTrack($trackId);
+        $this->response->setData($return);
     }
 }

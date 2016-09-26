@@ -17,37 +17,30 @@ abstract class RestController
 {
     use HttpTransport;
     //put your code here
-    private $data = [];
-    private $application = null;
     private $className = '';
-    private $action = '';
-    private $parameter = '';
 
     public function __construct(RestApplication $app)
     {
-
         $this->request = $app->getRequest();
         $this->response = $app->getResponse();
-
-        
-        
-//        Log::debug($this->className . '::' . $this->method . '(' . $this->parameter . ')');
-        
     }
 
-    public function load() {}
+    public function head() {}
+    public function get() {}
+    public function post() {}
+    public function put() {}
+    public function patch() {}
+    public function delete() {}
 
     public function render()
     {
-        $this->load();
-        
         $qstring = str_replace('/api/', '', $this->request->getRequestUri());
         $qParts = explode('/', $qstring);
         
         $this->apiName = $qParts[0];
         $this->className = ucfirst($this->apiName);
-        $action = isset($qParts[1]) ? $qParts[1] : '';
-        $parameter = isset($qParts[2]) ? $qParts[2] : null;
+        $method = $this->request->getMethod();
+        $parameter = isset($qParts[1]) ? $qParts[1] : null;
         $data = [];
         
         $request_body = file_get_contents('php://input');
@@ -66,23 +59,13 @@ abstract class RestController
                 $params = [$parameter];
             }
         }
-        
-        if(method_exists($this, $action)) {
             
-            $ref = new \ReflectionMethod($this, $action);
-            if(count($params) > 0) {
-                $ref->invokeArgs($this, $params);
-            } else {
-                $ref->invoke($this);
-            }
-            
-//            if(isset($parameter)) {
-//                $this->$action($parameter);
-//            } else {
-//                $this->$action();
-//            }
+        $ref = new \ReflectionMethod($this, $method);
+        if(count($params) > 0) {
+            $ref->invokeArgs($this, $params);
+        } else {
+            $ref->invoke($this);
         }
-        
         
         $this->response->sendJsonData();
     }
