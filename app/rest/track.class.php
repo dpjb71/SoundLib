@@ -13,12 +13,12 @@ namespace SoundLib\Rest;
  *
  * @author David
  */
-class Collection extends \SoundLib\Lib\RestController
+class Track extends \SoundLib\Lib\RestController
 {
     //put your code here    
-    public function get()
+    public function get($trackId)
     {
-        $collection = \SoundLib\Models\Collection::getAllTracks();
-        $this->response->setData($collection);
+        $track = \SoundLib\Models\Track::getTrackById($trackId);
+        $this->response->setData($track);
     }
 }

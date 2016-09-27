@@ -25,6 +25,7 @@ class Response implements \JsonSerializable
                 $this->data[$left] = $right;
             }
         } else {
+            Log::debug($key);
             $this->data[$key] = $value;
         }
     }

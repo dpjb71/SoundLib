@@ -14,13 +14,12 @@ use SoundLib\Data\Connection;
  *
  * @author David
  */
-class Collection
+class Track
 {
-    //put your code here
-    public static function getAllTracks()
+    public static function getTrackById($trackId)
     {
         $result = [];
-        $result['collection'] = [];
+        $result['track'] = [];
         
         $cnn = new Connection();
         $stmt = $cnn->open();
@@ -29,16 +28,19 @@ class Collection
 select trk_id as id, art_name as artist, trk_title as title, trk_duration as duration
 from artist a
 inner join track t on a.art_id = t.art_id
-order by art_name, trk_title
+where trk_id = :trackId
 SELECT;
         
-        $res = $stmt->query($sql);
+        $res = $stmt->prepare($sql);
+        $res->execute([':trackId' => $trackId]);
         
         while ($row = $res->fetch(\PDO::FETCH_OBJ)) {
-            array_push($result['collection'], $row);
+            array_push($result['track'], $row);
         }
         
         return $result;
-    }
 
+    }
+    
+            
 }

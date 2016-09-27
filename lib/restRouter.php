@@ -18,10 +18,10 @@ class RestRouter
     //put your code here
     private $application = null;
     private $apiName = '';
-	private $className = '';
+    private $className = '';
     private $baseNamespace = '';
     private $apiFileName = '';
-	private $parameter = '';
+    private $parameter = '';
 
     public function __construct(RestApplication $app)
     {
@@ -32,15 +32,15 @@ class RestRouter
 
     public function translate()
     {
-
         $nsParts = explode('\\', __NAMESPACE__);
         $this->baseNamespace = array_shift($nsParts);
 
-		$qstring = str_replace('/api/', '', REQUEST_URI);
+        $qstring = str_replace('/api/', '', REQUEST_URI);
         $qParts = explode('/', $qstring);
-		$$this->parameter = array_shift($qParts)+0;
+        $this->apiName = array_shift($qParts);
+        $this->parameter = array_shift($qParts);
  
-		$this->apiName = preg_replace('/[^a-z0-9_]+/i','', array_shift($qParts));
+//        $this->apiName = preg_replace('/[^a-z0-9_]+/i','', array_shift($qParts));
         $this->className = ucfirst($this->apiName);
         
         $this->apiFileName = DOCUMENT_ROOT . 'app' . DIRECTORY_SEPARATOR . 'rest' . DIRECTORY_SEPARATOR . $this->apiName . '.class.php';
@@ -50,7 +50,7 @@ class RestRouter
 
     public function dispatch()
     {
-		$data = [];
+        $data = [];
         $method = REQUEST_METHOD;
 
         $fqObject = $this->baseNamespace . '\\Rest\\' . $this->className;
