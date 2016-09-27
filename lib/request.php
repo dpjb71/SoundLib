@@ -42,7 +42,7 @@ class Request
         return $this->rootName;
     }
     
-    public function getRequestUri()
+    public function getUri()
     {
         return REQUEST_URI;
     }
@@ -52,14 +52,9 @@ class Request
         return QUERY_STRING;
     }
 
-    public function getScriptName()
-    {
-        return $_SERVER['SCRIPT_NAME'];
-    }
-    
     public function getMethod()
     {
-        return $_SERVER['REQUEST_METHOD'];
+        return REQUEST_METHOD;
     }
     
     

@@ -34,12 +34,12 @@ abstract class RestController
 
     public function render()
     {
-        $qstring = str_replace('/api/', '', $this->request->getRequestUri());
+        $qstring = str_replace('/api/', '', REQUEST_URI);
         $qParts = explode('/', $qstring);
         
         $this->apiName = $qParts[0];
         $this->className = ucfirst($this->apiName);
-        $method = $this->request->getMethod();
+        $method = REQUEST_METHOD;
         $parameter = isset($qParts[1]) ? $qParts[1] : null;
         $data = [];
         

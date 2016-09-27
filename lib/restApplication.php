@@ -35,7 +35,7 @@ class RestApplication
             $router->dispatch();
         } else {
             $this->response->returnCode(404);
-            $this->response->sendXMLData(['Error' => "404 : You're searching in the wrong place"]);
+            $this->response->sendJsonData(['Error' => "404 : You're searching in the wrong place"]);
             
         }
         

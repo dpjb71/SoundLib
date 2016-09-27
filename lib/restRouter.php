@@ -30,21 +30,17 @@ class RestRouter
 
     public function translate()
     {
-//        $this->apiName = $this->request->getRootName();
 
         $nsParts = explode('\\', __NAMESPACE__);
         $this->baseNamespace = array_shift($nsParts);
         
-        $qstring = str_replace('/api/', '', $this->request->getRequestUri());
+        $qstring = str_replace('/api/', '', REQUEST_URI);
         
-        Log::debug($qstring);
         $qParts = explode('/', $qstring);
         
         $this->apiName = $qParts[0];
-        Log::debug($this->apiName);
         
         $this->apiFileName = DOCUMENT_ROOT . 'app' . DIRECTORY_SEPARATOR . 'rest' . DIRECTORY_SEPARATOR . $this->apiName . '.class.php';
-        Log::debug($this->apiFileName);
         
         return file_exists($this->apiFileName);
     }

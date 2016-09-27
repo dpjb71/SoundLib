@@ -15,16 +15,14 @@ namespace SoundLib\Rest;
  */
 class Collection extends \SoundLib\Lib\RestController
 {
-    //put your code here
-    public function get()
+    //put your code here    
+    public function get($trackId)
     {
-        $collection = \SoundLib\Models\Collection::getAllTracks();
-        $this->response->setData($collection);
-    }
-        
-    public function head($trackId)
-    {
-        $collection = \SoundLib\Models\Collection::getTrackById($trackId);
+        if($trackId == '-1') {
+            $collection = \SoundLib\Models\Collection::getAllTracks();
+        } else {
+            $collection = \SoundLib\Models\Collection::getTrackById($trackId);
+        }
         $this->response->setData($collection);
     }
 }

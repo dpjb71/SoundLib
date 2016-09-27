@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 var rest = new SoundLib.Rest()
-var ui = new SoundLib.UI()
 
+var currentUser = 1
 var currentPlaylist = 0
 
 var Home = function() {}
@@ -16,7 +16,29 @@ Home.getUserInfo = function() {
         var user = data.info[0]
         document.getElementById('name').innerHTML = user.name
         document.getElementById('email').innerHTML = user.email
+    })
+}
+
+Home.getCollection = function() {
+    rest.get('/api/collection/' + currentUser, function(data) {
+        var result = '<ol>'
+        data = data.collection
+
+            for(var i = 0; i < data.length; i++) {
+                var duration = data[i].duration
+                
+                var minutes = Math.floor(duration / 60)
+                var seconds = duration - (minutes * 60)
+                duration = minutes + ':' + ('00' + seconds).toString().slice(-2)
+            
+                result += '<li><a href="javascript:Home.addTrackToPlaylist(' + data[i].id + ')" ><img src="/css/images/add.png" /></a>&nbsp;' + data[i].artist + ' - ' + data[i].title + ' (' + duration + ')'  + '</li>'
+            }
+            result += '</ol>'
         
+        var div = document.getElementById('collection')
+        if(div !== undefined) {
+            div.innerHTML = result
+        }
     })
     
 }
@@ -27,15 +49,14 @@ Home.getUserFavorites = function() {
         currentPlaylist = data.pid
         data = data.playlist
         if(data[0].artist === null && data[0].title === null) {
-            result = 'La playlist est vide';
+            result = 'La playlist est vide'
         } else {
             for(var i = 0; i < data.length; i++) {
-                var duration = data[i].duration;
+                var duration = data[i].duration
                 
-                
-                var minutes = Math.floor(duration / 60);
-                var seconds = duration - (minutes * 60);
-                duration = minutes + ':' + ('00' + seconds).toString().slice(-2);
+                var minutes = Math.floor(duration / 60)
+                var seconds = duration - (minutes * 60)
+                duration = minutes + ':' + ('00' + seconds).toString().slice(-2)
             
                 result += '<li><a href="javascript:Home.removeTrackFromPlaylist(' + data[i].id + ')" ><img src="/css/images/delete.png" /></a>&nbsp;' + data[i].artist + ' - ' + data[i].title + ' (' + duration + ')'  + '</li>'
             }
@@ -44,7 +65,7 @@ Home.getUserFavorites = function() {
         
         var div = document.getElementById('playlist')
         if(div !== undefined) {
-            div.innerHTML = result;
+            div.innerHTML = result
         }
     })
     
@@ -68,5 +89,6 @@ Home.removeTrackFromPlaylist = function(trackId) {
 
 SoundLib.ready(function() {
     Home.getUserInfo(1)
+    Home.getCollection()
     Home.getUserFavorites()
 })
