@@ -17,7 +17,6 @@ abstract class RestController
 {
     use HttpTransport;
     //put your code here
-    private $className = '';
 
     public function __construct(RestApplication $app)
     {
@@ -32,44 +31,5 @@ abstract class RestController
     public function patch() {}
     public function delete() {}
 
-    public function render()
-    {
-        $qstring = str_replace('/api/', '', REQUEST_URI);
-        $qParts = explode('/', $qstring);
-        
-        $this->apiName = $qParts[0];
-        $this->className = ucfirst($this->apiName);
-        $method = REQUEST_METHOD;
-        $parameter = isset($qParts[1]) ? $qParts[1] : null;
-        $data = [];
-        
-        $request_body = file_get_contents('php://input');
-        if(!empty($request_body)) {
-            $data = json_decode($request_body, true);
-        }
-        
-        $params = [];
-        if(count($data) > 0) {
-            $params = array_values($data);
-            if($parameter !== null) {
-                array_unshift($params, $parameter);
-            }
-        } else {
-            if($parameter !== null) {
-                $params = [$parameter];
-            }
-        }
-            
-        $ref = new \ReflectionMethod($this, $method);
-        if(count($params) > 0) {
-            $ref->invokeArgs($this, $params);
-        } else {
-            $ref->invoke($this);
-        }
-        
-        $this->response->sendJsonData();
-    }
-
-
-    
+  
 }
