@@ -5,9 +5,10 @@
  */
 
 var currentUser = 1
+var sl = new SoundLib('sl')
 
-SoundLib.ready(function() {
-    SoundLib.getUserInfo(currentUser)
-    SoundLib.getCollection()
-    SoundLib.getUserFavorites()
+SoundLib.DOM.ready(function() {
+    sl.getUserInfo(this.currentUser)
+    sl.getCollection()
+    sl.getUserFavorites()
 })
