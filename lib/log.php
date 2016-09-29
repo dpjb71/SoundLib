@@ -18,6 +18,9 @@ class Log
     //put your code here
     public static function debug($message)
     {
+        if(!file_exists(DOCUMENT_ROOT . 'log')) {
+            mkdir(DOCUMENT_ROOT . 'log', 0777);
+        }
         file_put_contents(DOCUMENT_ROOT . 'log' . DIRECTORY_SEPARATOR . 'debug.log', $message . "\n", FILE_APPEND | LOCK_EX);
     }
 }

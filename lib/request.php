@@ -18,7 +18,6 @@ class Request
     //put your code here
     private $requestUri = '';
     private $queryString = '';
-    private $rootName = '';
     private $requestUriParts = '';
 
     public function __construct()
@@ -26,20 +25,12 @@ class Request
         $this->requestUri = REQUEST_URI;
         $this->queryString = QUERY_STRING;
         $this->requestUriParts = explode('/', $this->requestUri);
-        $this->rootName = array_pop($this->requestUriParts);
-        $rootNameParts = explode('.',$this->rootName);
-        $this->rootName = array_shift($rootNameParts);
         
     }
     
     public function getRequestUriParts()
     {
         return $this->requestUriParts;
-    }
-    
-    public function getRootName()
-    {
-        return $this->rootName;
     }
     
     public function getUri()
