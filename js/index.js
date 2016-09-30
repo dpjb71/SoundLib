@@ -65,6 +65,6 @@ pl.afterRemoveTrack = getUserFavorites
 SoundLib.DOM.ready(function() {
     
     usr.getInfo()
-    getCollection()
+//    getCollection()
     getUserFavorites()
 })
